@@ -1,0 +1,67 @@
+<html>
+
+<head>
+  <title>DV final project</title>
+  <meta charset='utf-8' />
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="//d3js.org/topojson.v1.min.js"></script>
+</head>
+
+<style>
+</style>
+
+<body>
+
+  <div>
+    <p>Project title: Taiwan's highway traffic flow illustration<br>
+      Student name: Chou Sung Wang (Sam)<br>
+      Student ID: 20562272<br>
+      Student email: cwang115@dons.usfca.edu<br>
+      Project description: In this project, I will demostrate the traffic flows among Taiwan's highway system with
+      node-link diagram and geo-graph.<br>
+      Also, I will implement a time-series line chart to show the daily traffic flow for a specific node.
+    </p>
+  </div>
+  <div id='viz'>
+    <svg height='960px' width='960px'></svg>
+  </div>
+
+
+  <div id='controls' />
+  <script>
+
+    var width = 960,
+        height = 500;
+    
+    var path = d3.geo.path();
+    
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+    
+    var url = "https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/us.json"
+    d3.json(url, function(error, topology) {
+      if (error) throw error;
+      
+      console.log("topojson", topology)
+      var geojson = topojson.feature(topology, topology.objects.counties);
+      console.log("geojson", geojson)
+    
+      svg.selectAll("path")
+          .data(geojson.features)
+        .enter().append("path")
+          .attr("d", path);
+    });
+    
+    </script>
+</body>
+<footer>
+  <script lang='babel' type='text/babel'>
+
+
+
+
+  </script>
+</footer>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initialize"></script>
+
+<!-- Create an element where the map will take place -->
+<svg id="my_dataviz" width="1000" height="1000"></svg>
+<script>
+    // d3.csv("https://dl.dropboxusercontent.com/u/12537630/mrt.csv", function(data){
+  var overlay = new google.maps.OverlayView();
+
+  // 新增 OverlayView 到 google map
+  overlay.onAdd = function() {
+    var layer = d3.select(this.getPanes().overlayLayer).append("div")
+        .attr("class", "stations");
+
+    overlay.draw = function() {
+      var projection = this.getProjection(), padding = 16;
+
+      var marker = layer.selectAll("svg")
+          .data(d3.entries(data))
+          .each(transform)
+          .enter().append("svg:svg")
+            .each(transform)
+            .attr("class", "marker");
+
+      // 加入圓點
+      marker.append("svg:circle")
+          .attr("r", 6)
+          .attr("cx", padding)
+          .attr("cy", padding);
+
+      // 加入標籤
+      marker.append("svg:text")
+          .attr("x", padding + 7)
+          .attr("y", padding)
+          .attr("dy", ".31em")
+          .text(function(d) { return d.value.name; });
+
+      // transform function. 指定每個點的座標.
+      function transform(d) {
+        d = new google.maps.LatLng(d.value.lat, d.value.lng);
+        d = projection.fromLatLngToDivPixel(d);
+        return d3.select(this)
+            .style("left", (d.x - padding) + "px")
+            .style("top", (d.y - padding) + "px");
+      }
+    };
+  };
+
+  // 將 overlay 加入到 google 地圖
+//   overlay.setMap(map);
+// });
+    // // The svg
+    // var svg = d3.select("svg"),
+    //     width = +svg.attr("width"),
+    //     height = +svg.attr("height");
+
+    // // Map and projection
+    // var projection = d3.geoNaturalEarth()
+    // .scale(width / 1.3 / Math.PI)
+    // .translate([width / 2, height / 2])
+    // // .scale(width / 1.3 / Math.PI)
+    // // .translate([width / 2, height / 2])
+
+    // // projection.rotate(-75).fitExtent(
+    // //     [
+    // //         [0, 0],
+    // //         [width, height],
+    // //     ],
+    // //     features
+    // // )
+
+    // // Load external data and boot
+    // d3.json("us-states.json", function (data) {
+
+    //     // Draw the map
+    //     svg.append("g")
+    //         .selectAll("path")
+    //         .data(data.features)
+    //         .enter().append("path")
+    //         .attr("fill", "#69b3a2")
+    //         .attr("d", d3.geoPath()
+    //             .projection(projection)
+    //         )
+    //         .style("stroke", "#fff")
+    // })
+
+</script>
