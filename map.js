@@ -1,0 +1,82 @@
+    // The svg
+    // The svg
+    var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height");
+
+    // Map and projection
+    var projection = d3.geoMercator()
+        .center([120, 24])
+        .scale(6000)
+        .translate([width / 2, height / 2])
+
+    // Load external data and boot
+    d3.json("tw_main1.json", function (err, data) {
+
+        console.log(data.features)
+        // Draw the map
+        svg.append("g")
+            .selectAll("path")
+            .data(data.features)
+            .enter()
+            .append("path")
+            .attr("fill", "white")
+            .attr("d", d3.geoPath()
+                .projection(projection)
+            )
+            .style("stroke", "gray")
+
+
+        var location = [
+            { "lat": 25.077956, "lng": 121.513916 }, // taipei
+            { "lat": 25.064980, "lng": 121.355642 },
+            // {"lat" : 25.037570, "lng":121.297942},
+            { "lat": 25.019312, "lng": 121.273179 },
+            { "lat": 24.757216, "lng": 120.987650 },
+            { "lat": 24.691609, "lng": 120.918631 },
+            { "lat": 24.524054, "lng": 120.820400 },
+            { "lat": 24.313506, "lng": 120.701773 },
+            // { "lat": 24.270753, "lng":  120.692924},
+            { "lat": 24.175129, "lng": 120.631052 },
+            { "lat": 24.065260, "lng": 120.522661 },
+            { "lat": 23.984214, "lng": 120.507244 },
+            { "lat": 23.693430, "lng": 120.471325 },
+            { "lat": 23.693430, "lng": 120.471325 },
+            { "lat": 23.494495, "lng": 120.391408 },
+            { "lat": 23.307481, "lng": 120.291117 },
+            { "lat": 23.218337, "lng": 120.238870 },
+            { "lat": 23.079115, "lng": 120.252137 },
+            { "lat": 22.942854, "lng": 120.249519 },
+            { "lat": 22.845773, "lng": 120.295441 },
+            { "lat": 22.737193, "lng": 120.334367 },
+            // { "lat":  22.675126, "lng":  120.329106},
+            { "lat": 22.630518, "lng": 120.336427 },
+        ]
+
+        // // Add the line
+        svg.append("path")
+            .datum(location)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 2)
+            .attr("d", d3.line()
+                .x(function (d) { return projection([d.lng, d.lat])[0] })
+                .y(function (d) { return projection([d.lng, d.lat])[1] })
+            )
+        svg.append("g")
+            .selectAll("dot")
+            .data(location)
+            .enter()
+            .append("circle")
+            // .attr("class", "point")
+            // .attr("cx", tmp.lat)
+            // .attr("cy", tmp.lng)
+            .attr("r", 4)
+            .attr("transform", function (d) {
+                return "translate(" + projection([
+                    d.lng,
+                    d.lat
+                ]) + ")"
+            })
+            .style("fill", "#66B3FF");
+    })

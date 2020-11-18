@@ -6,7 +6,9 @@
     <!-- https://www.d3-graph-gallery.com/graph/line_basic.html -->
     <!-- Load d3.js -->
     <script src="//d3js.org/d3.v4.min.js"></script>
-
+    <!-- <script src="https://d3js.org/d3.v4.js"></script> -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
     <style>
         svg {
             font: 10px sans-serif;
@@ -50,6 +52,21 @@
             fill-opacity: .125;
             stroke: #fff;
         }
+
+        .annotation-group {
+            stroke: var(--annotation-color);
+            fill: rgba(0, 0, 0, 0);
+        }
+
+        .website {
+            text-decoration: underline;
+        }
+
+        .grid line {
+            stroke: lightgrey;
+            stroke-opacity: 0.7;
+            /* shape-rendering: crispEdges; */
+        }
     </style>
 
     <!-- Create a div where the graph will take place -->
@@ -58,21 +75,24 @@
 </head>
 
 <body>
-    <script src="//d3js.org/d3.v4.min.js"></script>
-    <script src="script.js"></script>
+
     <div>
-        <p>Project title: Taiwan's highway traffic flow illustration<br> 
-          Student name: Chou Sung Wang (Sam)<br>
-          Student ID: 20562272<br>
-          Student email: cwang115@dons.usfca.edu<br>
-          Project description: In this project, I will demostrate the traffic flows among Taiwan's highway system with node-link diagram and geo-graph.<br>
-                               Also, I will implement a time-series line chart to show the daily traffic flow for a specific node.<br>
-                               
-       
+        <p>Project title: Taiwan's highway traffic flow illustration<br>
+            Student name: Chou Sung Wang (Sam)<br>
+            Student ID: 20562272<br>
+            Student email: cwang115@dons.usfca.edu<br>
+            Project description: In this project, I will demostrate the traffic flows among Taiwan's highway system with
+            node-link diagram and geo-graph.<br>
+            Also, I will implement a time-series line chart to show the daily traffic flow for a specific node.<br>
+
+
         </p>
-        
-      </div>
-      <a href="https://www.notion.so/Alpha-release-39b762ea902347319b14d03f035d5714">Alpha release</a><br>
+
+    </div>
+    <script src="multiline.js"></script>
+    <script src="map.js"></script>
+
+    <!-- <a href="https://www.notion.so/Alpha-release-39b762ea902347319b14d03f035d5714">Alpha release</a><br> -->
     <!-- <script>
         
         // set the dimensions and margins of the graph
